@@ -1,57 +1,70 @@
 // MONGOOSE SCHEMA
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
-
-
-var Schema = mongoose.Schema;
+import { Schema, model } from "mongoose";
 
 var userSchema = new Schema({
 
-    username: {
+    //basic details
+    username: { // primary key
         type: String,
         lowercase: true,
         unique: true,
-        required: [true, "can't be blank"],
+        required: [true, "this is a mandatory attribute"],
         match: [/^[a-zA-Z0-9]+$/, "is invalid"],
         index: true,
     },
-    password: String,
-    name: String,
+    name : {
+        type : String,
+        required : true,
+    },
+    branch : String,
+    password: {
+        type : String,
+        required : true,
+    },
     email: {
         type: String,
         lowercase: true,
         unique: true,
-        required: [true, "can't be blank"],
-        index: true,
+        required: [true, "this is a mandatory attribute"]
     },
     phone: {
         type: Number,
         default: 0
     },
-    countDate: String,
-    photo: {
-        data: Buffer,
-        contentType: String
+
+    //batch details
+    batchId : {
+        type : String,
+        lowercase : true,
+        required : true
     },
-    admin: String,
-    branch: String,
-    totalScore: {
-        type: Number,
-        default: 0
+    batchYear : {
+        type : Number,
+        required : true,
+        default : 2020
     },
+    institutionId : {
+        type : String,
+        required : true
+    },
+
+    // Custom user attributes
+    attributes: {
+        type: Map,
+        of: Schema.Types.Mixed, // Can store various data types like string, number, date etc.
+    },
+    multiValuedAttributes: {
+        type: Map,
+        of: Schema.Types.Array, // An array of values for each attribute
+    },
+
     isVerified: {
         type: Boolean,
         default: false
     },
     verifyToken: String,
-    passwordResetToken: String,
-    passwordResetExpires: Date,
 }, {
     timestamps: true
 });
 
-userSchema.plugin(uniqueValidator, {
-    message: "is already taken."
-});
-
-module.exports = mongoose.model("User", userSchema);
+export default model("User", userSchema);

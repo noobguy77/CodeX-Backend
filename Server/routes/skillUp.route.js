@@ -1,4 +1,4 @@
-let middleware = require("../util/middleware.js");
+let middleware = require("../util/middleware.js").default;
 
 module.exports = (app) => {
   const skillUp = require("../controllers/skillUp.controller.js");

@@ -3,7 +3,6 @@ const Contest = require("../models/contest.model.js");
 const Counter = require("../models/counter.model.js");
 const Participation = require("../models/participation.model.js");
 
-const xlsx = require("xlsx");
 
 const questionUtil = require("../services/questionUtil.js");
 const participationUtil = require("../services/participationUtil.js");
@@ -127,75 +126,75 @@ exports.createMcqQuestion = async (req, res) => {
   return responseUtil.sendResponse(res, true, questions, "Question(s) created successfully", 201);
 }
 
-exports.createExcel = (req, res) => {
-  if (req.files.upfile) {
-    var file = req.files.upfile,
-      name = file.name,
-      type = file.mimetype;
-    var uploadpath = "../quesxlsx" + name;
-    file.mv(uploadpath, function (err) {
-      if (err) {
-        res.send("Error occurred!");
-      } else {
-        let wb = xlsx.readFile("../quesxlsx" + name);
-        let ws = wb.Sheets["Sheet1"];
-        let data = xlsx.utils.sheet_to_json(ws);
-        let question;
-        Question.find()
-          .then((questions) => {
-            let currQuestions = questions.length;
-            for (let i = 0; i < data.length; i++) {
-              question = new Question({
-                questionId: "KLHCode" + (currQuestions + (i + 1)).toString(),
-                questionName: data[i].questionName,
-                contestId: data[i].contestId,
-                questionDescriptionText: data[i].questionDescriptionText,
-                questionInputText: data[i].questionInputText,
-                questionOutputText: data[i].questionOutputText,
-                questionExampleInput1: data[i].questionExampleInput1,
-                questionExampleOutput1: data[i].questionExampleOutput1,
-                questionExampleInput2: data[i].questionExampleInput2,
-                questionExampleOutput2: data[i].questionExampleOutput2,
-                questionExampleInput3: data[i].questionExampleInput3,
-                questionExampleOutput3: data[i].questionExampleOutput3,
-                questionHiddenInput1: data[i].questionHiddenInput1,
-                questionHiddenInput2: data[i].questionHiddenInput2,
-                questionHiddenInput3: data[i].questionHiddenInput3,
-                questionHiddenOutput1: data[i].questionHiddenOutput1,
-                questionHiddenOutput2: data[i].questionHiddenOutput2,
-                questionHiddenOutput3: data[i].questionHiddenOutput3,
-                questionExplanation: data[i].questionExplanation,
-                author: data[i].author,
-                editorial: data[i].editorial,
-                difficulty: data[i].level,
-                company: data[i].company,
-                topic: data[i].topic,
-              });
-              question.save();
-            }
-            res.send({
-              success: true,
-              message: "Done! Uploaded files",
-            });
-          })
-          .catch((err) => {
-            res.status(500).send({
-              success: false,
-              message:
-                err.message ||
-                "Some error occurred while retrieving questions.",
-            });
-          });
-      }
-    });
-  } else {
-    res.send({
-      success: false,
-      message: "No File selected !",
-    });
-    res.end();
-  }
-};
+// exports.createExcel = (req, res) => {
+//   if (req.files.upfile) {
+//     var file = req.files.upfile,
+//       name = file.name,
+//       type = file.mimetype;
+//     var uploadpath = "../quesxlsx" + name;
+//     file.mv(uploadpath, function (err) {
+//       if (err) {
+//         res.send("Error occurred!");
+//       } else {
+//         let wb = xlsx.readFile("../quesxlsx" + name);
+//         let ws = wb.Sheets["Sheet1"];
+//         let data = xlsx.utils.sheet_to_json(ws);
+//         let question;
+//         Question.find()
+//           .then((questions) => {
+//             let currQuestions = questions.length;
+//             for (let i = 0; i < data.length; i++) {
+//               question = new Question({
+//                 questionId: "KLHCode" + (currQuestions + (i + 1)).toString(),
+//                 questionName: data[i].questionName,
+//                 contestId: data[i].contestId,
+//                 questionDescriptionText: data[i].questionDescriptionText,
+//                 questionInputText: data[i].questionInputText,
+//                 questionOutputText: data[i].questionOutputText,
+//                 questionExampleInput1: data[i].questionExampleInput1,
+//                 questionExampleOutput1: data[i].questionExampleOutput1,
+//                 questionExampleInput2: data[i].questionExampleInput2,
+//                 questionExampleOutput2: data[i].questionExampleOutput2,
+//                 questionExampleInput3: data[i].questionExampleInput3,
+//                 questionExampleOutput3: data[i].questionExampleOutput3,
+//                 questionHiddenInput1: data[i].questionHiddenInput1,
+//                 questionHiddenInput2: data[i].questionHiddenInput2,
+//                 questionHiddenInput3: data[i].questionHiddenInput3,
+//                 questionHiddenOutput1: data[i].questionHiddenOutput1,
+//                 questionHiddenOutput2: data[i].questionHiddenOutput2,
+//                 questionHiddenOutput3: data[i].questionHiddenOutput3,
+//                 questionExplanation: data[i].questionExplanation,
+//                 author: data[i].author,
+//                 editorial: data[i].editorial,
+//                 difficulty: data[i].level,
+//                 company: data[i].company,
+//                 topic: data[i].topic,
+//               });
+//               question.save();
+//             }
+//             res.send({
+//               success: true,
+//               message: "Done! Uploaded files",
+//             });
+//           })
+//           .catch((err) => {
+//             res.status(500).send({
+//               success: false,
+//               message:
+//                 err.message ||
+//                 "Some error occurred while retrieving questions.",
+//             });
+//           });
+//       }
+//     });
+//   } else {
+//     res.send({
+//       success: false,
+//       message: "No File selected !",
+//     });
+//     res.end();
+//   }
+// };
 
 // Retrieve and return all questions from the database.
 exports.getAllQuestions = async (req, res) => {

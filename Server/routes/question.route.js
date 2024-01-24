@@ -1,4 +1,4 @@
-let middleware = require("../util/middleware.js");
+let middleware = require("../util/middleware.js").default;
 
 module.exports = (app) => {
     const questions = require("../controllers/question.controller.js");
@@ -9,11 +9,11 @@ module.exports = (app) => {
     app.post("/mcqQuestion", middleware.checkTokenAdmin, questions.createMcqQuestion);
 
     // Create a new question Excel
-    app.post(
-        "/questionsExcel",
-        middleware.checkTokenAdmin,
-        questions.createExcel
-    );
+    // app.post(
+    //     "/questionsExcel",
+    //     middleware.checkTokenAdmin,
+    //     questions.createExcel
+    // );
 
     // Retrieve all questions
     app.get("/questions/:isMcq", middleware.checkTokenAdmin, questions.getAllQuestions);

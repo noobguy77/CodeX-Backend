@@ -3,7 +3,7 @@ const Counter = require("../models/counter.model.js");
 
 const contestUtil = require("../services/contestUtil.js");
 const questionUtil = require("../services/questionUtil.js");
-const responseUtil = require("../services/responseUtil.js");
+const responseUtil = require("../services/responseUtil.js").default;
 
 const dotenv = require("dotenv");
 dotenv.config({ path: "../util/config.env" });

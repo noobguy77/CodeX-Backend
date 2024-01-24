@@ -1,6 +1,7 @@
-let jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 
-let checkToken = (req, res, next) => {
+
+export const checkToken = (req, res, next) => {
   let token =
     req.cookies.token ||
     req.headers["x-access-token"] ||
@@ -43,7 +44,7 @@ let checkToken = (req, res, next) => {
   }
 };
 
-let checkTokenAdmin = (req, res, next) => {
+export const checkTokenAdmin = (req, res, next) => {
   let token =
     req.cookies.token ||
     req.headers["x-access-token"] ||
@@ -83,7 +84,7 @@ let checkTokenAdmin = (req, res, next) => {
     });
   }
 };
-module.exports = {
+export default {
   checkToken,
   checkTokenAdmin,
 };

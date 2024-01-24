@@ -1,4 +1,4 @@
-const sendResponse = async(res, success, data, message, statusCode) => {
+export const sendResponse = async(res, success, data, message, statusCode) => {
     return res.status(statusCode).send({
         success: success,
         data: data,
@@ -6,6 +6,6 @@ const sendResponse = async(res, success, data, message, statusCode) => {
     })
 }
 
-module.exports = {
+export default {
     sendResponse
 }

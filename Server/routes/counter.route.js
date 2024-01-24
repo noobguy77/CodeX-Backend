@@ -1,4 +1,4 @@
-let middleware = require("../util/middleware.js");
+let middleware = require("../util/middleware.js").default;
 
 module.exports = (app) => {
   let counterController = require("../controllers/counter.controller.js");
